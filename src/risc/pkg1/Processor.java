@@ -45,6 +45,7 @@ public abstract class Processor {
                 break;
                 
             case '"':
+                if(val.equals("_")) { dat = (int) ' '; break; }
                 dat = (int) val.charAt(0);
                 break;
             

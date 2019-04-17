@@ -127,7 +127,7 @@ public class RISC extends Processor {
                 
                 
             case PRINT:
-                txtOut.append(""+(char)para[0]);
+                txtOut.append(""+(char)reg[para[0]]);
                 break;
                 
                 

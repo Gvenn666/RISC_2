@@ -169,6 +169,12 @@ public class RISC extends Processor {
                     
                     System.out.println(toks[1]+":"+vars.get(toks[1]));
                     break;
+                    
+                case "INCLUDE":
+                    String[] addition = IO.loadStrings(new File(toks[1]));
+                    prog = ARRAY.combine(prog, addition);
+                    break;
+                    
             }
             
             ln++;

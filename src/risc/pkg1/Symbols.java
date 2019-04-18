@@ -15,7 +15,7 @@ public enum Symbols {
     ADDI, SUBI, DIVI, MULI,
     ADD, SUB, DIV, MUL,
     JMP, JNZ, JMZ, JSR, RET,
-    EQU, LBL,
+    EQU, LBL, INCLUDE,
     PRINT, CLS
 }
 

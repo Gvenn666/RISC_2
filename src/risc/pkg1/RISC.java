@@ -119,7 +119,7 @@ public class RISC extends Processor {
                 reg[para[0]] *= para[1];
                 break;
                 
-            case NOP: break;
+            case NOP: OS.sleep(reg[para[0]]); break;
             
             case ST:
                 mem[para[1]] = reg[para[0]];
@@ -129,6 +129,9 @@ public class RISC extends Processor {
             case PRINT:
                 txtOut.append(""+(char)reg[para[0]]);
                 break;
+                
+            case PRINTN:
+                txtOut.append(""+reg[para[0]]);
                 
                 
             case CLS: 

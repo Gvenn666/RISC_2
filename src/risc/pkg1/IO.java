@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author George
  */
-public class IO {
+public final class IO {
     public static PrintStream getStdOut() {return System.out;} 
     public static PrintStream getStdErr() {return System.err;} 
     public static InputStream getStdIn() {return System.in;} 
@@ -22,7 +22,7 @@ public class IO {
     public static String[] loadStrings(File f) {
         try {
             BufferedReader reader = openBufferedReader(f);
-            ArrayList<String> source = new ArrayList();
+            ArrayList<String> source = new ArrayList<String>();
             String line = "";
             
             while((line = reader.readLine()) != null) {
@@ -53,7 +53,7 @@ public class IO {
     
     public static String[][] loadCSV(String path, String delim) {
         String[] lines = loadStrings(toFile(path));
-        ArrayList<String[]> table = new ArrayList();
+        ArrayList<String[]> table = new ArrayList<String[]>();
         
         for(String line : lines) {
             line.split(delim);
@@ -125,6 +125,29 @@ public class IO {
         } catch (IOException ex) {
             Logger.getLogger(IO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+        public static void hexDump(int[] dat, int colNum, String path) {
+    	
+    	BufferedWriter bw = openBufferedWriter(path);
+    	String line;
+    	
+    	for(int i = 0; i < dat.length;) {
+    		line = String.format("%016x", i);
+    		for(int j = 0; j < colNum; j++) {
+    			
+    			line += String.format(" %08x", dat[i++]);
+    			
+    		}
+                
+                try {
+                    bw.write(line+System.lineSeparator());
+                } catch (IOException ex) {
+                    Logger.getLogger(IO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    		
+    	}
+    	
     }
     
     

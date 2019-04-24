@@ -25,7 +25,7 @@ public class RISC extends Processor {
     int[] reg = new int[32];
     String[] prog = {};
     private final int PC = 31;
-    int[] mem;
+    int[] mem = new int[128];
     Stack<Integer> calls = new Stack();
     
     @Override

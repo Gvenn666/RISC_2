@@ -28,7 +28,7 @@ public class Clocker implements Runnable {
                 state = p.clock();
                 //System.out.println(p.toString());
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Clocker.class.getName()).log(Level.SEVERE, null, ex);
                 }

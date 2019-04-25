@@ -25,12 +25,18 @@ public class RISC extends Processor {
     int[] reg = new int[32];
     String[] prog = {};
     private final int PC = 31;
-    int[] mem = new int[128];
+    int[] mem = new int[0x10000];
     Stack<Integer> calls = new Stack();
     
     @Override
     public int clock() {
-       return execute(decode(fetch()));
+        int state = 0;
+        for(int i = 0; i < 100; i++) {
+            state = execute(decode(fetch()));
+            if(state != 0) break;
+        }
+       
+       return state;
     }
     
     public String fetch() {
@@ -47,7 +53,7 @@ public class RISC extends Processor {
     
     public int execute(String[] inp) {
         
-        
+        if(prog.length < 1) return 0;
         
         int state = 0;
         
@@ -119,7 +125,7 @@ public class RISC extends Processor {
                 reg[para[0]] *= para[1];
                 break;
                 
-            case NOP: OS.sleep(reg[para[0]]); break;
+            case NOP: OS.sleep(para[0]); break;
             
             case ST:
                 mem[para[1]] = reg[para[0]];
@@ -177,6 +183,9 @@ public class RISC extends Processor {
                     String[] addition = IO.loadStrings(new File(toks[1]));
                     prog = ARRAY.combine(prog, addition);
                     break;
+                    
+                case "FOPEN":
+                    
                     
             }
             

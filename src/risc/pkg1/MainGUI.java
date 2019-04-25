@@ -23,7 +23,7 @@ public class MainGUI extends javax.swing.JFrame {
     Clocker c;
     Thread t;
     JFileChooser jfc;
-    
+    Printer p;
     
     public MainGUI() {
         initComponents();
@@ -35,8 +35,10 @@ public class MainGUI extends javax.swing.JFrame {
         System.setOut(IO.openPrintStream(rootDir+"/Logs/log.txt"));
         
         risc = new RISC(jTextArea1);
+        p = new Printer("C:/tmp/Print.txt", risc.mem);
         c = new Clocker();
         c.add(risc);
+        c.add(p);
         
         t = new Thread(c);
         t.start();

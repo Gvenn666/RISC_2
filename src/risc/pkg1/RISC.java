@@ -184,7 +184,15 @@ public class RISC extends Processor {
                     prog = ARRAY.combine(prog, addition);
                     break;
                     
-                case "FOPEN":
+                case "STRING":
+                    if(vars.containsKey(toks[1])) break;
+                    int i = 0;
+                    
+                    for(char c : toks[2].replace('_', ' ').toCharArray()) {
+                        mem[i] = (int) c;
+                    }
+                    
+                    vars.put(toks[1], 0);
                     
                     
             }
@@ -201,6 +209,16 @@ public class RISC extends Processor {
     public void load(File f) {
         load(IO.loadStrings(f));
     }
+    
+//    public int searchForSpace(int len) {
+//        for(int begin = 0; begin < mem.length - len; begin++) {
+//            for(int end = 0; end < mem.length; end++) {
+//                if()
+//                    
+//                    
+//            }
+//        }
+//    }
     
         
         

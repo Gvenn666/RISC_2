@@ -68,8 +68,19 @@ public class MainGUI extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextArea1KeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextArea1);
         jTextArea1.setEditable(false);
+
+        jMenuBar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jMenuBar1KeyTyped(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -129,6 +140,19 @@ public class MainGUI extends javax.swing.JFrame {
         IO.hexDump(risc.mem, 16, rootDir+"/Debug/Memory.txt");
         System.out.println("Dumped Memory...");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuBar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuBar1KeyTyped
+        // TODO add your handling code here:
+        
+        System.err.println(evt.getKeyChar());
+        
+    }//GEN-LAST:event_jMenuBar1KeyTyped
+
+    private void jTextArea1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyTyped
+        // TODO add your handling code here:
+        System.err.println(evt.getKeyChar());
+        risc.mem[0xB100] = (int) evt.getKeyChar();
+    }//GEN-LAST:event_jTextArea1KeyTyped
 
     /**
      * @param args the command line arguments

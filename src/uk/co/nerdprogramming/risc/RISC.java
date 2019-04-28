@@ -146,6 +146,9 @@ public class RISC extends Processor {
                 
             case LBL: break;
             case EQU: break;
+            case STRING: break;
+            case FOPEN: break;
+            case INCLUDE: break;
                 
             default:
                 System.err.println("Unkown Instruction "+inp[0]);
@@ -160,6 +163,7 @@ public class RISC extends Processor {
     
     HashMap<String, Integer> vars = new HashMap();
     
+    int nextStringPtr = 0;
     public void pass1() {
         int ln = 0;
         for(String line : prog) {
@@ -168,7 +172,7 @@ public class RISC extends Processor {
                 case "EQU":
                     if(vars.containsKey(toks[1])) break;
                     
-                    vars.put(toks[1], parseData(toks[2],mem,vars));
+                    vars.put(toks[1], parseData(toks[2],mem,vars,reg));
                     System.out.println(toks[1]+":"+vars.get(toks[1]));
                     break;
                     
@@ -186,11 +190,14 @@ public class RISC extends Processor {
                     
                 case "STRING":
                     if(vars.containsKey(toks[1])) break;
-                    int i = 0;
+                    int i = nextStringPtr;
                     
                     for(char c : toks[2].replace('_', ' ').toCharArray()) {
                         mem[i] = (int) c;
                     }
+                    mem[++i] = 0x00;
+                    
+                    nextStringPtr +=  toks[2].length()+1;
                     
                     vars.put(toks[1], 0);
                     
@@ -226,7 +233,7 @@ public class RISC extends Processor {
     public int[] getArgs(int offset, String[] inputs) {
         int[] output = new int[inputs.length - offset];
         for(int i = 0; i < inputs.length - offset; i++) {
-            output[i] = parseData(inputs[i + offset], mem, vars);
+            output[i] = parseData(inputs[i + offset], mem, vars,reg);
         }
         
         return output;

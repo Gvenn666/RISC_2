@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public abstract class Processor {
     public abstract int clock();
-     protected int parseData(String s, int[] mem, HashMap<String, Integer> vars) {
+     protected int parseData(String s, int[] mem, HashMap<String, Integer> vars, int[] reg) {
         int dat = 0;
         //XXXXt
         char type = s.charAt(0);
@@ -47,6 +47,10 @@ public abstract class Processor {
             case '"':
                 if(val.equals("_")) { dat = (int) ' '; break; }
                 dat = (int) val.charAt(0);
+                break;
+                
+            case '*':
+                dat = reg[Integer.parseInt(val)];
                 break;
             
         }

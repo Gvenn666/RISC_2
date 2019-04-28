@@ -191,7 +191,7 @@ public class RISC extends Processor {
                 case "STRING":
                     if(vars.containsKey(toks[1])) break;
                     int i = nextStringPtr;
-                    
+                    int ptr = i;
                     for(char c : toks[2].replace('_', ' ').toCharArray()) {
                         mem[i] = (int) c;
                     }
@@ -199,7 +199,7 @@ public class RISC extends Processor {
                     
                     nextStringPtr +=  toks[2].length()+1;
                     
-                    vars.put(toks[1], 0);
+                    vars.put(toks[1], i);
                     
                     
             }

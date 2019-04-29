@@ -5,7 +5,13 @@
  */
 package uk.co.nerdprogramming.risc;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -136,9 +142,18 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        IO.hexDump(risc.mem, 16, rootDir+"/Debug/Memory.txt");
-        System.out.println("Dumped Memory...");
+        try {
+            // TODO add your handling code here:
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(IO.createFile(new File("C:/tmp/mem.hex"))));
+            for(int i : risc.mem) {
+                dos.write(i);
+            }
+            dos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuBar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuBar1KeyTyped

@@ -33,9 +33,9 @@ public class RISC extends Processor {
         int state = 0;
         for(int i = 0; i < 100; i++) {
             state = execute(decode(fetch()));
-            if(state != 0) break;
+            if(haltFlag) { System.out.println("RISC #"+Thread.currentThread().getId()+" Has Halted"); break; }
         }
-       
+      
        return state;
     }
     
@@ -52,7 +52,7 @@ public class RISC extends Processor {
     }
     
     public int execute(String[] inp) {
-        
+        if(haltFlag) return 1;
         if(prog.length < 1) return 0;
         
         int state = 0;
@@ -69,7 +69,7 @@ public class RISC extends Processor {
                 reg[para[0]] = mem[para[1]];
                 break;
                 
-            case HLT: state = 1; break;
+            case HLT: state = 1; haltFlag = true; break;
             
             case JMP:
                 reg[PC] = para[0];
@@ -143,6 +143,17 @@ public class RISC extends Processor {
             case CLS: 
                 txtOut.setText("");
             
+            case PRINTSTR:
+                char c = ' ';
+                int i = 0;
+                while((c = (char) mem[para[0] + i]) > 0) {
+                    if(c == 0) break;
+                    txtOut.append(""+c);
+                    System.err.println(c);
+                    i++;
+                }
+                
+                break;
                 
             case LBL: break;
             case EQU: break;
@@ -162,7 +173,7 @@ public class RISC extends Processor {
     }
     
     HashMap<String, Integer> vars = new HashMap();
-    
+    boolean haltFlag = false;
     int nextStringPtr = 0;
     public void pass1() {
         int ln = 0;
@@ -191,20 +202,27 @@ public class RISC extends Processor {
                 case "STRING":
                     if(vars.containsKey(toks[1])) break;
                     int i = nextStringPtr;
+                    vars.put(toks[1], i);
                     int ptr = i;
                     for(char c : toks[2].replace('_', ' ').toCharArray()) {
-                        mem[i] = (int) c;
+                        mem[i++] = (int) c;
                     }
                     mem[++i] = 0x00;
                     
                     nextStringPtr +=  toks[2].length()+1;
                     
-                    vars.put(toks[1], i);
                     
+                   // nextStringPtr += i;
+                    System.err.println(toks[1]+":"+i+" NSP:"+nextStringPtr);
+                    break;
                     
             }
             
             ln++;
+            
+            for(String s : toks) {
+                System.err.println(s);
+            }
         }
     }
     

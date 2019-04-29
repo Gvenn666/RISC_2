@@ -127,6 +127,14 @@ public final class IO {
         }
     }
     
+    public static File createFile(File f) {
+        try {
+            f.createNewFile(); 
+            return f;
+        } catch (IOException ioex) {}
+        return f;
+    }
+    
         public static void hexDump(int[] dat, int colNum, String path) {
     	
     	BufferedWriter bw = openBufferedWriter(path);

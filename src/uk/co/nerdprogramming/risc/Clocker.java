@@ -19,16 +19,16 @@ public class Clocker implements Runnable {
     ArrayList<Processor> proc = new ArrayList<>();
     
     public void add(Processor p) {proc.add(p);}
-
+    int state = 0;
     @Override
     public void run() {
-        int state = 0;
+        
         while(state == 0) {
             for(Processor p : proc) {
                 state = p.clock();
                 //System.out.println(p.toString());
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Clocker.class.getName()).log(Level.SEVERE, null, ex);
                 }

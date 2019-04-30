@@ -216,6 +216,11 @@ public class RISC extends Processor {
                     System.err.println(toks[1]+":"+i+" NSP:"+nextStringPtr);
                     break;
                     
+                    
+                case "DB":
+                    mem[nextStringPtr++] = parseData(toks[2], mem, vars, reg);
+                    break;
+                    
             }
             
             ln++;

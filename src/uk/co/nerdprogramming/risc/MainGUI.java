@@ -144,7 +144,8 @@ public class MainGUI extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         try {
             // TODO add your handling code here:
-            DataOutputStream dos = new DataOutputStream(new FileOutputStream(IO.createFile(new File("C:/tmp/mem.hex"))));
+            jfc.showSaveDialog(this);
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(IO.createFile(jfc.getSelectedFile())));
             for(int i : risc.mem) {
                 dos.write(i);
             }

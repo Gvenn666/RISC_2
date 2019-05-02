@@ -18,7 +18,7 @@ public abstract class Processor {
         //XXXXt
         char type = s.charAt(0);
         String val = s.substring(1);
-        
+       // if(!vars.containsKey(val)) return 0;
         switch(type) {
             case '#':
                 dat = Integer.parseInt(val, 10);

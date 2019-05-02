@@ -17,7 +17,7 @@ public enum Symbols {
     JMP, JNZ, JMZ, JSR, RET,
     EQU, LBL, INCLUDE,
     PRINT, CLS, PRINTN, PRINTSTR,
-    FOPEN, STRING, DB
+    FOPEN, STRING, DB, REM, MY_MAN
 }
 
 

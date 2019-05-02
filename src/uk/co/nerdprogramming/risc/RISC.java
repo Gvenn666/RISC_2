@@ -7,6 +7,7 @@ package uk.co.nerdprogramming.risc;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Stack;
 import javax.swing.JTextArea;
 
@@ -59,7 +60,7 @@ public class RISC extends Processor {
         
         int[] para = getArgs(1, inp);
         
-        switch(Symbols.valueOf(inp[0].toUpperCase())) {
+        switch(Symbols.valueOf(inp[0].toUpperCase(Locale.ENGLISH))) {
             
             case LDI:
                 reg[para[0]] = para[1];
@@ -137,7 +138,7 @@ public class RISC extends Processor {
                 break;
                 
             case PRINTN:
-                txtOut.append(""+reg[para[0]]);
+                txtOut.append(String.format("%05d", reg[para[0]]));
                 
                 
             case CLS: 
@@ -160,6 +161,12 @@ public class RISC extends Processor {
             case STRING: break;
             case FOPEN: break;
             case INCLUDE: break;
+            case REM: break;
+            case DB: break;
+            
+            case MY_MAN:
+                txtOut.append(System.lineSeparator());
+                break;
                 
             default:
                 System.err.println("Unkown Instruction "+inp[0]);
@@ -175,7 +182,7 @@ public class RISC extends Processor {
     HashMap<String, Integer> vars = new HashMap();
     boolean haltFlag = false;
     int nextStringPtr = 0;
-    public void pass1() {
+    public void pass2() {
         int ln = 0;
         for(String line : prog) {
             String[] toks = line.split(" ");
@@ -194,10 +201,18 @@ public class RISC extends Processor {
                     System.out.println(toks[1]+":"+vars.get(toks[1]));
                     break;
                     
-                case "INCLUDE":
-                    String[] addition = IO.loadStrings(new File(toks[1]));
-                    prog = ARRAY.combine(prog, addition);
-                    break;
+//                case "INCLUDE":
+//                    System.err.println(prog.length);
+//                    String[] addition = IO.loadStrings(new File(toks[1]));
+//                    System.err.println(addition.length);
+//                    prog = ARRAY.combine(prog, addition);
+//                    System.err.println(prog.length);
+//                    
+//                    for (String string : prog) {
+//                        System.err.println(string);
+//                    }
+                    
+                    //break;
                     
                 case "STRING":
                     if(vars.containsKey(toks[1])) break;
@@ -218,7 +233,7 @@ public class RISC extends Processor {
                     
                     
                 case "DB":
-                    mem[nextStringPtr++] = parseData(toks[2], mem, vars, reg);
+                    mem[nextStringPtr++] = parseData(toks[1], mem, vars, reg);
                     break;
                     
             }
@@ -230,10 +245,42 @@ public class RISC extends Processor {
             }
         }
     }
+    public void pass1() {
+        int ln = 0;
+        for(String line : prog) {
+            String[] toks = line.split(" ");
+            switch(toks[0]) {
+                    
+                case "INCLUDE":
+                    System.err.println(prog.length);
+                    String[] addition = IO.loadStrings(new File(toks[1]));
+                    System.err.println(addition.length);
+                    prog = ARRAY.combine(prog, addition);
+                    System.err.println(prog.length);
+                    
+                    for (String string : prog) {
+                        System.err.println(string);
+                    }
+                    
+                    break;
+                    
+               
+                    
+                    
+                
+                    
+            }
+            
+            ln++;
+            
+            
+        }
+    }
     
     public void load(String[] prog_) {
         prog = prog_;
         pass1();
+        pass2();
     }
     
     public void load(File f) {

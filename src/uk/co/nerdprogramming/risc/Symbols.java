@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//Please save me, im sitting next a demonic entity that wishes to send me to hell. For the love 
+//of everything holy, save me Vengaza.
 package uk.co.nerdprogramming.risc;
 
 /**

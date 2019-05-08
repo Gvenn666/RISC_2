@@ -233,8 +233,14 @@ public class RISC extends Processor {
                     
                     
                 case "DB":
-                    mem[nextStringPtr++] = parseData(toks[1], mem, vars, reg);
+                    mem[nextStringPtr++] = parseData(toks[2], mem, vars, reg);
                     break;
+                    
+                case "MEM":
+                    String[] payload = toks[2].split("/");
+                    for(String s : payload) {
+                        mem[nextStringPtr++] = parseData(s, mem, vars, reg);
+                    }
                     
             }
             

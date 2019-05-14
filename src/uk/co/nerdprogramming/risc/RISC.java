@@ -5,10 +5,15 @@
  */
 package uk.co.nerdprogramming.risc;
 
+import com.sun.org.apache.bcel.internal.util.ByteSequence;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Stack;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 
 /**
@@ -168,6 +173,17 @@ public class RISC extends Processor {
                 txtOut.append(System.lineSeparator());
                 break;
                 
+            case LOAD_FROM_DISK:
+                JFileChooser jfc = new JFileChooser();
+                jfc.showOpenDialog(jfc);
+                try(DataInputStream stream = new DataInputStream(new FileInputStream(jfc.getSelectedFile()))){
+                    for(int j = 0; j < jfc.getSelectedFile().length() / Integer.BYTES; j++) {
+                        mem[nextStringPtr++] = stream.readInt();
+                    }
+                } catch(IOException ioex) {
+                    
+                }
+                
             default:
                 System.err.println("Unkown Instruction "+inp[0]);
                 break;
@@ -233,13 +249,13 @@ public class RISC extends Processor {
                     
                     
                 case "DB":
-                    mem[nextStringPtr++] = parseData(toks[2], mem, vars, reg);
+                    mem[nextStringPtr++] = parseData(toks[1], mem, vars, reg);
                     break;
                     
                 case "MEM":
-                    String[] payload = toks[2].split("/");
-                    for(String s : payload) {
-                        mem[nextStringPtr++] = parseData(s, mem, vars, reg);
+                    
+                    for(int idx = 1; idx < toks.length; idx++) {
+                        mem[nextStringPtr++] = parseData(toks[idx], mem, vars, reg);
                     }
                     
             }
